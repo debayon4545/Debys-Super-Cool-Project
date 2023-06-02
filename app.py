@@ -10,14 +10,19 @@ def get_weather(api_key, city):
 
     if data["cod"] == "404":
         return None
-    print(data)
+
     temperature = data["main"]["temp"]
+    feels_like = data["main"]["feels_like"]
+    temp_min = data["main"]["temp_min"]
+    temp_max = data["main"]["temp_max"]
     humidity = data["main"]["humidity"]
     description = data["weather"][0]["description"]
 
-
     return {
         "temperature": temperature,
+        "feels_like": feels_like,
+        "temp_min": temp_min,
+        "temp_max": temp_max,
         "humidity": humidity,
         "description": description
     }
@@ -33,9 +38,10 @@ def weather():
             error_message = "City not found."
             return render_template("weather.html", error_message=error_message)
 
-        return render_template("weather.html", weather_data=weather_data)
+        return render_template("weather.html", weather_data=weather_data, city=city)
 
     return render_template("weather.html")
 
 if __name__ == "__main__":
     app.run()
+
